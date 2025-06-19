@@ -60,6 +60,10 @@ inputs:
     description: 'Set to true to upload analytics metadata artifact'
     required: false
     default: 'true'
+  pse_tag:
+    description: 'Tag of the PSE container to be used for setup'
+    required: false
+    default: 'latest'
 # Define outputs for the action
 outputs:
   scan_id:
@@ -117,6 +121,7 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_RUN_ID: ${{ github.run_id }}
         CLEANUP_STEP_NAME: ${{ inputs.cleanup_step_name }}
+        PSE_TAG: ${{ inputs.pse_tag }}
     - if: ${{ inputs.cleanup == 'true' && inputs.upload_artifact == 'true' }}
       uses: actions/upload-artifact@v4
       with:
