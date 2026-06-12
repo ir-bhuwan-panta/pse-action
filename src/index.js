@@ -2,7 +2,7 @@ const { execFileSync } = require('child_process');
 const { buildEnv, getInput, handleDeprecatedInputs, pick, saveState } = require('./utils');
 
 function runBootstrap(env, execFile = execFileSync) {
-  const bootstrapUrl = new URL('/ingestionapi/v1/pse/bootstrap', env.IR_URL);
+  const bootstrapUrl = new URL('/ingestionapi/v1/pse/bootstrap', env.IR__MOCK_URL);
   bootstrapUrl.search = new URLSearchParams({
     //? for backwards compatibility, if MODE is `docker-intercept`, we want to use native mode for the bootstrap script
     mode: !env.MODE || env.MODE === "docker-intercept" ? "native" : env.MODE,
@@ -13,8 +13,8 @@ function runBootstrap(env, execFile = execFileSync) {
 
   const bootstrapCommand = `
 set -euo pipefail
-if ! curl -sSf -H "x-api-key: $IR_TOKEN" "$BOOTSTRAP_URL" | bash; then
-  http_status=$(curl -sS -o /dev/null -w "%{http_code}" -H "x-api-key: $IR_TOKEN" "$BOOTSTRAP_URL" || true)
+if ! curl -sSf -H "x-api-key: $IR_MOCK_TOKEN" "$BOOTSTRAP_URL" | bash; then
+  http_status=$(curl -sS -o /dev/null -w "%{http_code}" -H "x-api-key: $IR_MOCK_TOKEN" "$BOOTSTRAP_URL" || true)
   if [ "$http_status" = "401" ]; then
     echo "::error title=PSE bootstrap unauthorized::Unauthorized request from InvisiRisk bootstrap API. Verify app_token is valid for $IR_URL."
   elif [ "$http_status" = "403" ]; then
