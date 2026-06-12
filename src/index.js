@@ -2,7 +2,7 @@ const { execFileSync } = require('child_process');
 const { buildEnv, getInput, handleDeprecatedInputs, pick, saveState } = require('./utils');
 
 function runBootstrap(env, execFile = execFileSync) {
-  const bootstrapUrl = new URL('/ingestionapi/v1/pse/bootstrap', env.IR__MOCK_URL);
+  const bootstrapUrl = new URL('/ingestionapi/v1/pse/bootstrap', env.IR_MOCK_URL);
   bootstrapUrl.search = new URLSearchParams({
     //? for backwards compatibility, if MODE is `docker-intercept`, we want to use native mode for the bootstrap script
     mode: !env.MODE || env.MODE === "docker-intercept" ? "native" : env.MODE,
