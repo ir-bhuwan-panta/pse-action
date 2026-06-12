@@ -38,6 +38,8 @@ function buildRuntimeEnv(inputReader = getInput, envSource = process.env) {
   const env = buildEnv({
     IR_URL: inputReader('api_url'),
     IR_TOKEN: pick(inputReader('app_token'), envSource.IR_TOKEN, envSource.APP_TOKEN),
+    IR__MOCK_URL: envSource.IR__MOCK_URL,
+    IR_MOCK_TOKEN: envSource.IR_MOCK_TOKEN,
   });
 
   const mode = pick(inputReader('mode'));
